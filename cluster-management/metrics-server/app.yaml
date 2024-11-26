@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: metrics-server
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: in-cluster  # The name of local ArgoCD cluster
+        behavior: merge
+  template:
+    metadata:
+      name: metrics-server
+    spec:
+      project: default
+      source:
+        repoURL: https://kubernetes-sigs.github.io/metrics-server/
+        targetRevision: 3.12.2
+        chart: metrics-server
+      destination:
+        server: https://kubernetes.default.svc  # Local cluster URL (default)
+        namespace: kube-system  # Namespace to deploy in
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
