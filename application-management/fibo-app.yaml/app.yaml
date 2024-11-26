@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: fibonacci-web
+  name: fibonacci-app
   namespace: argocd
 spec:
   generators:
@@ -9,10 +9,10 @@ spec:
         elements:
           - cluster: in-cluster
             namespace: app-dev
-            name: fweb-dev
+            name: fapp-dev
           - cluster: in-cluster
             namespace: app-qa
-            name: fweb-qa
+            name: fapp-qa
   template:
     metadata:
       name: "{{name}}"
@@ -21,7 +21,7 @@ spec:
       source:
         repoURL: https://github.com/ssah-blr/fibonacci-app-k8s.git
         targetRevision: main
-        path: python-app/fweb
+        path: python-app/fapp
         helm:
           parameters:
             - name: namespace
