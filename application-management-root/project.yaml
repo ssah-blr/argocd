@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: application-management-root
+  namespace: argocd
+spec:
+  description: Project for managing applications
+  sourceRepos:
+    - 'https://github.com/ssah-blr/argocd.git' # Add your GitHub repo
+  destinations:
+    - namespace: '*'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceBlacklist:
+    - group: ''
+      kind: Event
+  syncWindows: []

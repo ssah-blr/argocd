@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-management-root
+  namespace: argocd
+spec:
+  project: cluster-management-root
+  destination:
+    namespace: argocd
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: cluster-management
+    repoURL: >-
+      https://github.com/ssah-blr/argocd.git
+    targetRevision: main
+    directory:
+      recurse: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - Validate=true
+      - PrunePropagationPolicy=foreground
+      - CreateNamespace=true
+      - PruneLast=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
