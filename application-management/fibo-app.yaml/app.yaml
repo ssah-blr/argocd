@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: fibonacci-web
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: in-cluster
+            namespace: app-dev
+            name: fweb-dev
+          - cluster: in-cluster
+            namespace: app-qa
+            name: fweb-qa
+  template:
+    metadata:
+      name: "{{name}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/ssah-blr/fibonacci-app-k8s.git
+        targetRevision: main
+        path: python-app/fweb
+        helm:
+          parameters:
+            - name: namespace
+              value: "{{namespace}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{namespace}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
