@@ -6,9 +6,10 @@ metadata:
 spec:
   description: Project for managing cluster-level add-ons
   sourceRepos:
-    - 'https://github.com/ssah-blr/argocd.git' # Add your GitHub repo
+    - 'https://github.com/ssah-blr/argocd.git'
     - 'https://kubernetes-sigs.github.io/metrics-server/'
     - 'https://kyverno.github.io/kyverno/'
+    - 'https://github.com/ssah-blr/helm-kyverno-policies'
   destinations:
     - namespace: '*'
       server: '*'
