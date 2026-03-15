@@ -1,12 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: cluster-management-root
+  name: application-management-root
   namespace: argocd
 spec:
-  description: Project for managing cluster-level add-ons
+  description: Project for managing applications
   sourceRepos:
-    - 'https://github.com/ssah-blr/argocd.git' # Add your GitHub repo
+    - 'https://github.com/ssah-blr/argocd.git'
+    - 'https://github.com/ssah-blr/fibonacci-app-k8s.git'
   destinations:
     - namespace: '*'
       server: '*'

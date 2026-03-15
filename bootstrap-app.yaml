@@ -1,17 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: application-management-root
+  name: bootstrap
   namespace: argocd
+  finalizers:
+    - resources-finalizers.argocd.argoproj.io
+  labels:
+    app: meta-root
+    team: platform
+    tier: bootstrap
 spec:
-  project: application-management-root
+  project: default
   destination:
     namespace: argocd
     server: 'https://kubernetes.default.svc'
   source:
-    path: application-management
-    repoURL: >-
-      https://github.com/ssah-blr/argocd.git
+    path: bootstrap
+    repoURL: https://github.com/ssah-blr/argocd.git
     targetRevision: main
     directory:
       recurse: true

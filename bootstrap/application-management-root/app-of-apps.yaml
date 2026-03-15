@@ -1,15 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cluster-management-root
+  name: application-management-root
   namespace: argocd
+  finalizers:
+    - resources-finalizers.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"   
+  labels:
+    app: application-management-root
+    team: sre
+    tier: application
 spec:
-  project: cluster-management-root
+  project: application-management-root
   destination:
     namespace: argocd
     server: 'https://kubernetes.default.svc'
   source:
-    path: cluster-management
+    path: application-management
     repoURL: >-
       https://github.com/ssah-blr/argocd.git
     targetRevision: main
