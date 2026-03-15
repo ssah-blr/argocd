@@ -93,7 +93,9 @@ This repository is built and tested on [Rancher Desktop](https://rancherdesktop.
 
 ```bash
 kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+kubectl apply -n argocd \
+  --server-side \
+  -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
 Wait for ArgoCD to be ready:
@@ -122,7 +124,7 @@ Login with username `admin` and the password above.
 ### 3. Bootstrap the Entire Platform
 
 ```bash
-kubectl apply -f bootstrap-app.yaml
+kubectl apply -f https://raw.githubusercontent.com/ssah-blr/argocd/refs/heads/main/bootstrap-app.yaml
 ```
 
 That's it. ArgoCD will now reconcile the full hierarchy — cluster add-ons first, then developer applications.

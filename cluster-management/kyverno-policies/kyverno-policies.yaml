@@ -25,12 +25,17 @@ spec:
       destination:
         namespace: kyverno-policies
         server: "{{server}}"
-      source:
-        repoURL: https://kyverno.github.io/kyverno/
-        chart: kyverno
-        targetRevision: 2.6.0
-        helm:
-          releaseName: kyverno
+      sources:
+        - repoURL: https://kyverno.github.io/kyverno/
+          chart: kyverno
+          targetRevision: 2.6.0
+          helm:
+            releaseName: kyverno
+        - helm:
+            releaseName: kyverno-policies
+          path: .
+          repoURL: https://github.com/ssah-blr/helm-kyverno-policies
+          targetRevision: v1.1.0
       syncPolicy:
         automated:
           prune: true
