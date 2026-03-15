@@ -10,7 +10,7 @@ spec:
           - cluster: in-cluster
   template:
     metadata:
-      name: metrics-server
+      name: "metrics-server-{{cluster}}"
       annotations:
         argocd.argoproj.io/sync-wave: "-90"
       labels:
