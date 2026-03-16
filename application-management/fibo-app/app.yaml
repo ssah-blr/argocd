@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: fibonacci-app
+  name: fibonacci-series-webapp
   namespace: argocd
 spec:
   generators:
@@ -10,22 +10,24 @@ spec:
           - cluster: in-cluster
             namespace: app-dev
             name: fapp-dev
+            valuesFile: values-dev.yaml
           - cluster: in-cluster
             namespace: app-qa
             name: fapp-qa
+            valuesFile: values-qa.yaml
   template:
     metadata:
       name: "{{name}}"
     spec:
       project: application-management-root
       source:
-        repoURL: https://github.com/ssah-blr/fibonacci-app-k8s.git
+        repoURL: https://github.com/ssah-blr/helm-python-app.git
         targetRevision: main
-        path: python-app/fapp
+        path: .
         helm:
-          parameters:
-            - name: namespace
-              value: "{{namespace}}"
+          releaseName: "{{name}}"
+          valueFiles:
+            - "{{valuesFile}}"
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{namespace}}"
